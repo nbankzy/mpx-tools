@@ -1,0 +1,39 @@
+<%= link_to "Edit", edit_medium_path(params[:id]), {class: "btn btn-default", role:"button"} %>
+<h1><%= @media['title'] %></h1>
+<h4>Author: <%= @media['author'] %></h4>
+<p><%= @media['description'] %></p>
+<div>
+	<span>Categories:</span>
+	<% @media['media$categories'].each do |category| %>
+		<span><kbd><%= category['media$name'] %></kbd></span>
+	<% end %>
+</div>
+
+<div>
+	<span>Keywords: <em><%= @media['media$keywords'] %></em></span>
+</div>
+
+<div>
+	<h3>custom fields</h3>
+	<% @customFields['entries'].each do |custom| %>
+		<p><%= custom['title'] %>: <%= @media["pl1$#{custom['plfield$fieldName']}"] %></p>
+	<% end %>
+</div>
+
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="headingOne">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					Source
+				</a>
+			</h4>
+		</div>
+		<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+			<div class="panel-body">
+				<pre><%= @media.body %></pre>
+			</div>
+		</div>
+	</div>
+</div>

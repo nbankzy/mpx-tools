@@ -1,0 +1,45 @@
+<!-- <form class="navbar-form" method="get" action="<%= medium_index_path %>" role="search">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search" name="query">
+    </div>
+    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+</form> -->
+
+<form method="get" action="<%= medium_index_path %>" role="search">
+	<div class="row">
+	    <div class="col-lg-6 col-md-6">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search for..." name="query" value="<%= params[:query] %>">
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+				</span>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+
+<% @media['entries'].each do |medium| %>
+<%
+thumbnail = medium['defaultThumbnailUrl']
+if(thumbnail.include? '{ssl:https:http}')
+	thumb_string = thumbnail.sub("{ssl:https:http}","")
+	if is_ssl?
+		thumbnail = "https"+thumb_string
+	else
+		thumbnail = "http"+thumb_string
+	end
+end %>
+	<div class="media">
+		<div class="media-left media-middle">
+			<%= image_tag thumbnail, {lazy: true, width: "70px", height: "70px", alt: "Image unavailable"} %>
+		</div>
+		<div class="media-body">
+			<a href="<%= medium_path(medium['id'].split('/').last) %>">
+				<h4 class="media-heading"><%= medium['title'] %></h4>
+			</a>
+			<p>Author: <%= medium['author'] %></p>
+		</div>
+	</div>
+<% end %>

@@ -1,0 +1,68 @@
+<%= form_tag medium_path, {method: :put, class: "form-horizontal"} do %>
+	<%= hidden_field_tag "media[id]", @media['id'] %> 
+	<div class="form-group">
+		<%= label_tag  "media[title]", "Title", class: "col-sm-2 control-label" %>
+		<div class="col-sm-10">
+			<%= text_field_tag "media[title]", @media['title'], class: "form-control" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= label_tag  "media[description]", "Description", class: "col-sm-2 control-label" %>
+		<div class="col-sm-10">
+			<%= text_field_tag "media[description]", @media['description'], class: "form-control" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= label_tag  "media[author]", "Author", class: "col-sm-2 control-label" %>
+		<div class="col-sm-10">
+			<%= text_field_tag "media[author]", @media['author'], class: "form-control" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= label_tag  "media[keywords]", "Keywords", class: "col-sm-2 control-label" %>
+		<div class="col-sm-10">
+			<%= text_field_tag "media[keywords]", @media['keywords'], class: "form-control" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= label_tag  "media[categories]", "Categories", class: "col-sm-2 control-label" %>
+		<div class="col-sm-10">
+			<%= select_tag "media[categories]", 
+							options_for_select(
+								@categories['entries'].collect {|cat| [ cat['title'], cat['fullTitle'] ] },
+								@media['categories'].collect { |sel| sel['name'] }
+							),
+							{multiple: true, class: "col-sm-2 form-control"} %>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<%= label_tag  "media[pl1$creator]", "Creator", class: "col-sm-2 control-label" %>
+		<div class="col-sm-10">
+			<!-- <%= text_field_tag "media[pl1$creator]", @media['pl1$creator'], class: "form-control" %> -->
+		</div>
+	</div>
+
+	<% @customFields.each do |key, custom| %>
+		<%= puts custom.inspect %>
+		<div class="form-group">
+			<%= label_tag  "media[pl1$#{custom[:fieldName]}]", custom[:title], class: "col-sm-2 control-label" %>
+			<div class="col-sm-10">
+				<%= custom_field(
+					"media[pl1$#{custom[:fieldName]}]", 
+					@media["pl1$#{custom[:fieldName]}"], 
+					custom, 
+					{:class => "form-control"}
+					) %>
+				
+			</div>
+		</div>
+	<% end %>
+		
+
+	<%= submit_tag %>
+<% end %>
+
+<pre>
+	<%= @media.body %>
+</pre>

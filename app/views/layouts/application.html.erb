@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MpxTools</title>
+  <%= stylesheet_link_tag    "application", media: "all"%>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<div id="wrapper">
+	    <!-- Sidebar -->
+	    <div id="sidebar-wrapper">
+	        <ul class="sidebar-nav">
+	            <li class="sidebar-brand">
+	                <a href="#">
+	                    Dashboard
+	                </a>
+	            </li>
+	            <li>
+	                <a href="<%= medium_index_path %>">Media</a>	
+	            </li>
+	            <li>
+	                <a href="<%= feeds_path %>">Feeds</a>
+	            </li>
+	            <li>
+	                <a href="<%= tools_index_path %>">Tools</a>
+	            </li>
+	        </ul>
+	        <div class="sidebar-account">
+
+				<%= form_tag set_account_path, class: "form-horizontal", id: "set-account" do %>
+					<div class="form-group">
+						<div class="col-sm-10">
+							<%= select_tag "account", options_for_select(@accounts["entries"].collect {|acc| [ acc["title"], acc["id"] ] }, {:selected => session[:account] || @accounts[0][:id]}) , {class: "col-sm-10", id: "set-account-selector"} %>
+						</div>
+					</div>
+				<% end %>
+	        	<a href="<%= logout_path %>">Logout</a>
+	        </div>
+	    </div>
+	    <!-- /#sidebar-wrapper -->
+
+	    <!-- Page Content -->
+	    <div id="page-content-wrapper">
+	        <div class="container-fluid">
+	        <% flash.each do |name, msg| %>
+			    <%= content_tag :div, msg, class: "alert alert-info" %>
+			<% end %>
+	            <div class="row">
+	                <div class="col-lg-12">
+						<%= yield %>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+</body>
+</html>
